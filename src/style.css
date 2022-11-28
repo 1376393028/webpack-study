@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'nfont';
+    src: url('./assets/Alimama_ShuHeiTi_Bold.ttf') format('ttf');
+}
+.hello {
+    color: red;
+}
+
+.block-bg {
+    background-image: url(./assets/resource.png) !important;
+}
+
+body {
+    font-family: 'nfont';
+}

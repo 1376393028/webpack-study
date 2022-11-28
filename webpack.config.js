@@ -1,6 +1,8 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 
 
 module.exports = {
@@ -18,6 +20,9 @@ module.exports = {
             template: "./index.html",
             filename: "app.html",
             inject: "body"
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'style/[contenthash].css'
         })
     ],
     devServer: {
@@ -49,7 +54,35 @@ module.exports = {
                         maxSize: 4 * 1024 * 1024
                     }
                 }
+            },
+            {
+                test: /\.(css|less)$/,
+                // use: ['style-loader', 'css-loader', 'less-loader']
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader']
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: "assets/font/[contenthash][ext]"
+                }
+            },
+            {
+                test: /\.(tsv|csv)$/,
+                use: 'csv-loader'
+            },
+            {
+                test: /\.xml$/,
+                use: 'xml-loader'
             }
         ]
+    },
+    optimization: {
+        minimizer: [
+            new CssMinimizerWebpackPlugin()
+        ]
+    },
+    performance: {
+        hints: false
     }
 }
